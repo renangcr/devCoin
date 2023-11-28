@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './detail.module.css';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 interface CoinProps {
   symbol: string;
@@ -22,19 +22,12 @@ export const Detail = () => {
   const { cripto } = useParams();
   const [detail, setDetail] = useState<CoinProps>();
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     function getData(){
       fetch(`https://sujeitoprogramador.com/api-cripto/coin/?key=18b67b6c08b36420&symbol=${cripto}`)
       .then(response => response.json())
       .then((data: CoinProps) => {
-
-        // if(data.error){
-        //   navigate('/');
-        // }
-
-        console.log(data);
 
         let price = Intl.NumberFormat('pt-BR', {
           style: 'currency',
@@ -54,7 +47,9 @@ export const Detail = () => {
         setLoading(false);
       }).catch(err => {
         console.log(err);
-      });
+      }).finally(() => {
+        setLoading(false);
+      })
     }
 
     getData();
@@ -68,7 +63,8 @@ export const Detail = () => {
     )
   } else {
     return (
-      <div className={styles.container}>
+      detail ? (
+        <div className={styles.container}>
         <h1 className={styles.center}>{detail?.name}</h1>
         <p className={styles.center}>{detail?.symbol}</p>
 
@@ -90,6 +86,13 @@ export const Detail = () => {
           </p>
         </section>
       </div>
+      ) : (
+        <div className={styles.container}>
+        <h1 className={styles.center}>Cripto que você está buscando não encontrada</h1>
+        <Link to="/">Ir para home</Link>
+      </div>
+      )
     )
   }
+  
 }

@@ -1,6 +1,7 @@
 .container {
     padding: 0 14px;
     color: #fff;
+    text-align: center;
 }
 
 .center {
@@ -30,4 +31,16 @@
 
 .loss {
     color: #f91258;
+}
+
+.container a {
+    background-color: #575757;
+    padding: 8px 24px;
+    border-radius: 8px;
+    transition: 0.3s;
+    opacity: 0.7;
+}
+
+.container a:hover {
+    opacity: 1;
 }
